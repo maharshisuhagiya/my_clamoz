@@ -41,6 +41,8 @@ class OnlineTaxController extends Controller
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|email',
+            'mobile'     => 'required|digits:10',
+            'alt_mobile' => 'required|digits:10',
         ]);
 
         if ($validator->fails()) {

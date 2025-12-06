@@ -22,9 +22,8 @@
                     <label>Address Of *</label>
                     <select name="address_of[]" class="form-control">
                         <option value="">Select Address Of</option>
-                        <option value="USA"   {{ $a->address_of=='USA'?'selected':'' }}>USA</option>
-                        <option value="India" {{ $a->address_of=='India'?'selected':'' }}>India</option>
-                        <option value="Other" {{ $a->address_of=='Other'?'selected':'' }}>Other</option>
+                        <option value="Tax Payer"   {{ $a->address_of=='Tax Payer'?'selected':'' }}>Tax Payer</option>
+                        <option value="Spouse" {{ $a->address_of=='Spouse'?'selected':'' }}>Spouse</option>
                     </select>
                     <small class="error-text address_of_error"></small>
                 </div>

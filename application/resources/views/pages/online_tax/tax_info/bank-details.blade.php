@@ -33,7 +33,6 @@
                     <select name="account_type" class="form-control">
                         <option value="">Select Account Type</option>
                         <option {{ @$bank->account_type=='Saving'?'selected':'' }}>Saving</option>
-                        <option {{ @$bank->account_type=='Current'?'selected':'' }}>Current</option>
                         <option {{ @$bank->account_type=='Checking'?'selected':'' }}>Checking</option>
                     </select>
                     <small class="error-text" id="bank_account_type_error"></small>

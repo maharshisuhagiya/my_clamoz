@@ -72,9 +72,8 @@
                 <label>Select Tax Id Type</label>
                 <select name="tax_id_type" class="form-control">
                     <option value="">Select Tax Id Type</option>
-                    <option {{ @$dependent->tax_id_type=='SSN'?'selected':'' }}>SSN</option>
-                    <option {{ @$dependent->tax_id_type=='ITIN'?'selected':'' }}>ITIN</option>
-                    <option {{ @$dependent->tax_id_type=='ATIN'?'selected':'' }}>ATIN</option>
+                    <option {{ @$dependent->tax_id_type=='SSN/ITIN'?'selected':'' }}>SSN/ITIN</option>
+                    <option {{ @$dependent->tax_id_type=='Applying for ITIN'?'selected':'' }}>Applying for ITIN</option>
                 </select>
                 <small class="error-text" id="dependent_tax_id_type_error"></small>
             </div>
@@ -86,15 +85,27 @@
                 <small class="error-text" id="dependent_occupation_error"></small>
             </div>
 
-            <div class="col-md-4 mb-3">
+           <div class="col-md-4 mb-3">
                 <label>Visa Type</label>
                 <select name="visa_type" class="form-control">
                     <option value="">Select Visa Type</option>
-                    <option {{ @$dependent->visa_type=='US Citizen'?'selected':'' }}>US Citizen</option>
-                    <option {{ @$dependent->visa_type=='Green Card'?'selected':'' }}>Green Card</option>
-                    <option {{ @$dependent->visa_type=='H1B'?'selected':'' }}>H1B</option>
-                    <option {{ @$dependent->visa_type=='H4'?'selected':'' }}>H4</option>
+
+                    @php
+                        $visaTypes = [
+                            "H1A", "H1B", "H4", "L2", "L1A", "L1B",
+                            "F1 OPT", "F1 CPT", "M", "J", "Q", "EAD",
+                            "Green Card", "Us Citizen", "Not Available"
+                        ];
+                    @endphp
+
+                    @foreach($visaTypes as $visa)
+                        <option value="{{ $visa }}" 
+                            {{ old('visa_type', @$dependent->visa_type) == $visa ? 'selected' : '' }}>
+                            {{ $visa }}
+                        </option>
+                    @endforeach
                 </select>
+
                 <small class="error-text" id="dependent_visa_type_error"></small>
             </div>
 

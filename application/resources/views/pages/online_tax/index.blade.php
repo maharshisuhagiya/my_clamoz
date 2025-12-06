@@ -92,9 +92,9 @@
                     <i class="ti-layers-alt"></i> My Tax Summary
                 </a>
 
-                <a class="list-group-item list-group-item-action" data-tab="invoice">
+                {{-- <a class="list-group-item list-group-item-action" data-tab="invoice">
                     <i class="ti-receipt"></i> Invoice
-                </a>
+                </a> --}}
 
             </div>
         </div>

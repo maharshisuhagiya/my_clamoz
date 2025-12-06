@@ -64,9 +64,8 @@
                 <label>Select Tax Id Type</label>
                 <select name="tax_id_type" class="form-control">
                     <option value="">Select Tax Id Type</option>
-                    <option value="SSN" {{ old('tax_id_type', $spouse->tax_id_type ?? '')=='SSN'?'selected':'' }}>SSN</option>
-                    <option value="ITIN" {{ old('tax_id_type', $spouse->tax_id_type ?? '')=='ITIN'?'selected':'' }}>ITIN</option>
-                    <option value="ATIN" {{ old('tax_id_type', $spouse->tax_id_type ?? '')=='ATIN'?'selected':'' }}>ATIN</option>
+                    <option value="SSN/ITIN" {{ old('tax_id_type', $spouse->tax_id_type ?? '')=='SSN/ITIN'?'selected':'' }}>SSN/ITIN</option>
+                    <option value="Applying for ITIN" {{ old('tax_id_type', $spouse->tax_id_type ?? '')=='Applying for ITIN'?'selected':'' }}>Applying for ITIN</option>
                 </select>
                 <small class="error-text" id="spouse_tax_id_type_error"></small>
             </div>
@@ -83,10 +82,21 @@
                 <label>Visa Type</label>
                 <select name="visa_type" class="form-control">
                     <option value="">Select Visa Type</option>
+                    <option value="H1A" {{ old('visa_type', $spouse->visa_type ?? '')=='H1A'?'selected':'' }}>H1A</option>
                     <option value="H1B" {{ old('visa_type', $spouse->visa_type ?? '')=='H1B'?'selected':'' }}>H1B</option>
                     <option value="H4" {{ old('visa_type', $spouse->visa_type ?? '')=='H4'?'selected':'' }}>H4</option>
-                    <option value="L1" {{ old('visa_type', $spouse->visa_type ?? '')=='L1'?'selected':'' }}>L1</option>
+                    <option value="L2" {{ old('visa_type', $spouse->visa_type ?? '')=='L2'?'selected':'' }}>L2</option>
+                    <option value="L1A" {{ old('visa_type', $spouse->visa_type ?? '')=='L1A'?'selected':'' }}>L1A</option>
+                    <option value="L1B" {{ old('visa_type', $spouse->visa_type ?? '')=='L1B'?'selected':'' }}>L1B</option>
+                    <option value="F1 OPT" {{ old('visa_type', $spouse->visa_type ?? '')=='F1 OPT'?'selected':'' }}>F1 OPT</option>
+                    <option value="F1 CPT" {{ old('visa_type', $spouse->visa_type ?? '')=='F1 CPT'?'selected':'' }}>F1 CPT</option>
+                    <option value="M" {{ old('visa_type', $spouse->visa_type ?? '')=='M'?'selected':'' }}>M</option>
+                    <option value="J" {{ old('visa_type', $spouse->visa_type ?? '')=='J'?'selected':'' }}>J</option>
+                    <option value="Q" {{ old('visa_type', $spouse->visa_type ?? '')=='Q'?'selected':'' }}>Q</option>
+                    <option value="EAD" {{ old('visa_type', $spouse->visa_type ?? '')=='EAD'?'selected':'' }}>EAD</option>
                     <option value="Green Card" {{ old('visa_type', $spouse->visa_type ?? '')=='Green Card'?'selected':'' }}>Green Card</option>
+                    <option value="Us Citizen" {{ old('visa_type', $spouse->visa_type ?? '')=='Us Citizen'?'selected':'' }}>Us Citizen</option>
+                    <option value="Not Available" {{ old('visa_type', $spouse->visa_type ?? '')=='Not Available'?'selected':'' }}>Not Available</option>
                 </select>
                 <small class="error-text" id="spouse_visa_type_error"></small>
             </div>

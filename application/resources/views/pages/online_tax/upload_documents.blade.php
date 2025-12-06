@@ -14,14 +14,40 @@
 
             <div class="col-md-6 mb-3">
                 <label>Document Type *</label>
+
+                @php
+                    $docTypes = [
+                        "W2 - Wage Income",
+                        "Interview Document",
+                        "1099-INT Interest Income",
+                        "1099-DIV - Dividend Income",
+                        "1099-G - State Tax Refunds",
+                        "1099 MISC - Miscellaneous Income",
+                        "1099 R - Retirement Income",
+                        "1099-B - Stock/Shares Documents",
+                        "1095-A Health Insurance",
+                        "1098 - Home Mortgage Statement",
+                        "1098-E Student Loan Interest Statement",
+                        "1098-T Tuition Fee Statement",
+                        "Real Estate and Personal Property Taxes Paid",
+                        "Foreign Income Certificate",
+                        "IRA Contribution",
+                        "HSA Contribution",
+                        "Other"
+                    ];
+                @endphp
+
                 <select name="doc_type[]" class="form-control">
                     <option value="">Select Doc Type</option>
-                    <option value="W2">W2</option>
-                    <option value="1099">1099</option>
-                    <option value="Passport">Passport</option>
-                    <option value="Visa">Visa</option>
-                    <option value="Other">Other</option>
+
+                    @foreach($docTypes as $type)
+                        <option value="{{ $type }}"
+                            {{ old('doc_type', $selectedType ?? '') == $type ? 'selected' : '' }}>
+                            {{ $type }}
+                        </option>
+                    @endforeach
                 </select>
+
                 <small class="error-text doc_type_error"></small>
             </div>
 
