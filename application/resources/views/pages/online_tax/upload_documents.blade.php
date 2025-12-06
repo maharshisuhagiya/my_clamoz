@@ -1,0 +1,79 @@
+<form id="uploadDocumentsForm" enctype="multipart/form-data">
+@csrf
+
+<h4 class="text-primary mb-2">UPLOAD THE DOCUMENTS</h4>
+<p style="font-size:14px;color:#555;">
+    Download Document and Fill information and upload under Upload Files options like W2.
+</p>
+
+<div id="upload-wrapper">
+
+    <div class="upload-block border p-3 mb-3">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label>Document Type *</label>
+                <select name="doc_type[]" class="form-control">
+                    <option value="">Select Doc Type</option>
+                    <option value="W2">W2</option>
+                    <option value="1099">1099</option>
+                    <option value="Passport">Passport</option>
+                    <option value="Visa">Visa</option>
+                    <option value="Other">Other</option>
+                </select>
+                <small class="error-text doc_type_error"></small>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Document Upload *</label>
+                <input type="file" name="document[]" class="form-control">
+                <small class="error-text document_error"></small>
+            </div>
+
+        </div>
+
+        <button type="button" class="btn btn-danger btn-sm remove-block d-none">Remove</button>
+
+    </div>
+
+</div>
+
+<button type="button" id="addMoreUpload" class="btn btn-primary btn-sm mb-3">+ Add More</button>
+
+<div class="text-center mt-3">
+    <button type="submit" id="uploadDocSubmitBtn" class="btn btn-primary px-4">Upload Documents</button>
+    <button type="reset" class="btn btn-secondary px-4">Reset</button>
+</div>
+
+</form>
+
+@if(isset($documents) && count($documents) > 0)
+
+<h5 class="mt-4 mb-3 text-primary">Uploaded Documents</h5>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Document Type</th>
+            <th>File</th>
+            <th>Uploaded At</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach($documents as $d)
+        <tr>
+            <td>{{ $d->doc_type }}</td>
+            <td>
+                <a href="{{ 'storage/' . $d->file_path }}" target="_blank" class="btn btn-info btn-sm">
+                    Download
+                </a>
+            </td>
+            <td>{{ $d->created_at->format('d-m-Y h:i A') }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+@endif

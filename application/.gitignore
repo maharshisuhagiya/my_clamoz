@@ -11,4 +11,11 @@ npm-debug.log
 yarn-error.log
 .env
 *.zip
-codecanyon-28292342-grow-project-management-crm-with-invoicing-estimates-leads-and-tasks.zip
+codecanyon-*.zip
+
+# Laravel storage ignore
+/storage/logs/*
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*

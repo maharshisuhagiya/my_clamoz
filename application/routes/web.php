@@ -356,6 +356,21 @@ Route::group(['prefix' => 'tasks'], function () {
 });
 Route::resource('tasks', 'Tasks');
 
+Route::group(['prefix' => 'online_tax'], function () {
+    Route::get("/", "OnlineTaxController@index");
+
+    Route::post('/taxpayer-save', "OnlineTaxController@saveTaxpayer")->name('taxpayer.save');
+    Route::post('/spouse-save', "OnlineTaxController@saveSpouse")->name('spouse.save');
+    Route::post('/dependent/save', "OnlineTaxController@saveDependent")->name('dependent.save');
+    Route::post('/address/save', "OnlineTaxController@saveAddress")->name('address.save');
+    Route::post('/taxnotes/save', "OnlineTaxController@saveTaxNotes")->name('taxnotes.save');
+    Route::post('/upload-documents/save', "OnlineTaxController@saveUploadDocuments")->name('upload.documents.save');
+    Route::post('/bank/save', "OnlineTaxController@saveBank")->name('bank.save');
+    Route::post('/income/save', "OnlineTaxController@saveIncome")->name('income.save');
+    Route::post('/expenses/save', "OnlineTaxController@saveExpenses")->name('expenses.save');
+    Route::post('/state/save', "OnlineTaxController@saveStateInfo")->name('state.save');
+});
+
 //LEADS & LEAD
 Route::group(['prefix' => 'leads'], function () {
     Route::any("/search", "Leads@index");

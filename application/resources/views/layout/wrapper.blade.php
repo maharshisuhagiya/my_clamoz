@@ -77,6 +77,9 @@
     <!--js automations-->
     @include('layout.automationjs')
 
+    <!--custom scripts from pages-->
+    @yield('scripts')
+
     <!--[note: no sanitizing required] for this trusted content, which is added by the admin-->
     {!! config('system.settings_theme_body') !!}
 </body>
