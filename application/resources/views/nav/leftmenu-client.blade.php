@@ -119,7 +119,14 @@
                 </li>
                 @endif
 
-
+                <li data-modular-id="main_menu_online_tax"
+                    class="sidenav-menu-item menu-tooltip menu-with-tooltip"
+                    title="{{ cleanLang(__('lang.online_tax')) }}">
+                    <a class="waves-effect waves-dark" href="/online_tax" aria-expanded="false" target="_self">
+                        <i class="ti-receipt"></i>
+                        <span class="hide-menu">{{ cleanLang(__('lang.online_tax')) }}</span>
+                    </a>
+                </li>
                                                 
                 <!--[MODULES] - dynamic menu-->
                 {!! config('modules.menus.main.parent5') !!}

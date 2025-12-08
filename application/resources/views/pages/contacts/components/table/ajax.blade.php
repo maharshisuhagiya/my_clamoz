@@ -58,6 +58,12 @@
     <td class="contacts_col_action actions_column" id="contacts_col_action_{{ $contact->id }}">
         <!--action button-->
         <span class="list-table-action dropdown font-size-inherit">
+            <!--view details-->
+            <a href="{{ route('online_tax.user.details', ['id' => $contact->id]) }}"
+            class="data-toggle-action-tooltip btn btn-outline-info btn-circle btn-sm"
+            title="View Details">
+                <i class="ti-eye"></i>
+            </a>
             <!--delete-->
             @if(config('visibility.action_buttons_delete') == 'show' && $contact->account_owner == 'no')
             <button type="button" title="{{ cleanLang(__('lang.delete')) }}"

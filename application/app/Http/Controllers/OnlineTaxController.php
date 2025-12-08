@@ -16,6 +16,11 @@ use App\Models\RequiredStateEntry;
 
 class OnlineTaxController extends Controller
 {
+    public function __construct() {
+        parent::__construct();
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $userId = auth()->id();
@@ -32,6 +37,23 @@ class OnlineTaxController extends Controller
         $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
 
         return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries'));
+    }
+
+    public function userDetails($id)
+    {
+        $userId = $id;
+        $taxpayer  = Taxpayer::where('user_id', $userId)->first();
+        $spouse    = Spouse::where('user_id', $userId)->first();
+        $dependent = Dependent::where('user_id', $userId)->first();
+        $addresses = Address::where('user_id', $userId)->get();
+        $taxnotes = TaxNote::where('user_id', $userId)->first();
+        $documents = UploadDocument::where('user_id', $userId)->get();
+        $bank = BankDetail::where('user_id', $userId)->first();
+        $otherIncomeEntries = OtherIncomeEntry::where('user_id', $userId)->get()->keyBy('question_no');
+        $otherExpenseEntries = OtherExpenseEntry::where('user_id', $userId)->get()->keyBy('question_no');
+        $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
+
+        return view('pages.online_tax_user_details.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries'));
     }
 
     // ---------------------- TAXPAYER ----------------------

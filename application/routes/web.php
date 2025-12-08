@@ -358,6 +358,7 @@ Route::resource('tasks', 'Tasks');
 
 Route::group(['prefix' => 'online_tax'], function () {
     Route::get("/", "OnlineTaxController@index");
+    Route::get("/user/details/{id}", "OnlineTaxController@userDetails")->name('online_tax.user.details');
 
     Route::post('/taxpayer-save', "OnlineTaxController@saveTaxpayer")->name('taxpayer.save');
     Route::post('/spouse-save', "OnlineTaxController@saveSpouse")->name('spouse.save');

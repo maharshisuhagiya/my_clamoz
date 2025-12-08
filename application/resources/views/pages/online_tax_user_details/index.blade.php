@@ -1,0 +1,300 @@
+@extends('layout.wrapper')
+
+@section('content')
+
+<style>
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+    .ptab-content { display: none; }
+    .ptab-content.active { display: block; }
+    .nav-tabs .nav-link { cursor: pointer; }
+    .stab-content { display: none; }
+    .stab-content.active { display: block; }
+    .error-text {
+        font-size: 14px !important;   /* Bigger font */
+        font-weight: 600;
+        color: #e63946 !important;    /* Strong red */
+        margin-top: 3px;
+        display: block;
+    }
+
+    .error-input {
+        border: 2px solid #e63946 !important; 
+        background: #ffe6e6 !important;       
+    }
+
+    .yesno-group {
+        display: inline-flex;
+        border: 1px solid #d1d1d1;
+        border-radius: 25px;
+        overflow: hidden;
+    }
+
+    .yesno-option {
+        padding: 6px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        border-right: 1px solid #d1d1d1;
+        background: #f8f9fa;
+        color: #4a4a4a;
+        transition: 0.2s;
+    }
+
+    .yesno-option:last-child {
+        border-right: none;
+    }
+
+    .yesno-option.active-yes {
+        background: #198754 !important;
+        color: #fff !important;
+    }
+
+    .yesno-option.active-no {
+        background: #dc3545 !important;
+        color: #fff !important;
+    }
+
+    .yesno-option:hover {
+        background: #e2e6ea;
+    }
+
+    .extra-input-box {
+        margin-top: 10px;
+        display: none;
+    }
+</style>
+
+<div class="container-fluid" style="padding: 32px 13px;">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="list-group shadow-sm" id="sidebarMenu">
+
+                <a class="list-group-item list-group-item-action active" data-tab="personal">
+                    <i class="ti-user"></i> Personal Information
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="taxnotes">
+                    <i class="ti-notepad"></i> Schedule Tax Notes
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="upload">
+                    <i class="ti-upload"></i> Upload Documents
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="otherinfo">
+                    <i class="ti-info-alt"></i> Other Tax Information
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="summary">
+                    <i class="ti-layers-alt"></i> My Tax Summary
+                </a>
+
+                {{-- <a class="list-group-item list-group-item-action" data-tab="invoice">
+                    <i class="ti-receipt"></i> Invoice
+                </a> --}}
+
+            </div>
+        </div>
+
+        <!-- Right Side Content -->
+        <div class="col-md-9">
+
+            <!-- Page Title -->
+            <h3 id="pageTitle" class="mb-4">Personal Information</h3>
+
+            <!-- TAB 1: Personal Info -->
+            <div id="tab-personal" class="tab-section active">
+
+                <!-- ======= TOP SUB-TABS (inside personal info) ======= -->
+                <ul class="nav nav-tabs mb-4" id="personalTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-ptab="taxpayer">Taxpayer Information »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-ptab="spouse">Spouse Info (If Married) »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-ptab="dependent">Dependent Information »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-ptab="address">Address Of Living In Tax Year</a>
+                    </li>
+                </ul>
+
+                <!-- ============== SUB-TAB CONTENT ============== -->
+                <div id="ptab-taxpayer" class="ptab-content active">
+                    @include('pages.online_tax_user_details.personal_information.taxpayer-form')
+                </div>
+
+                <div id="ptab-spouse" class="ptab-content">
+                    @include('pages.online_tax_user_details.personal_information.spouse-information')
+                </div>
+
+                <div id="ptab-dependent" class="ptab-content">
+                    @include('pages.online_tax_user_details.personal_information.dependents_information')
+                </div>
+
+                <div id="ptab-address" class="ptab-content">
+                    @include('pages.online_tax_user_details.personal_information.address-of-living-in-tax-year')
+                </div>
+            </div>
+
+            <!-- TAB 2: Coming Soon -->
+            <div id="tab-taxnotes" class="tab-section">
+                @include('pages.online_tax_user_details.schedule_tax_notes')
+            </div>
+
+            <div id="tab-upload" class="tab-section">
+                @include('pages.online_tax_user_details.upload_documents')
+            </div>
+
+            <div id="tab-otherinfo" class="tab-section">
+
+                <!-- ======= TOP SUB-TABS (inside OTHER TAX INFO) ======= -->
+                <ul class="nav nav-tabs mb-4" id="otherTaxTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-stab="bank">Bank Details »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-stab="income">Other Income Details »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-stab="expenses">Other Expenses Details »</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-stab="state">Required Information For State</a>
+                    </li>
+                </ul>
+
+                <!-- ============== SUB TAB CONTENTS ============== -->
+
+                <!-- BANK DETAILS -->
+                <div id="stab-bank" class="stab-content active">
+                    @include('pages.online_tax_user_details.tax_info.bank-details')
+                </div>
+
+                <!-- OTHER INCOME -->
+                <div id="stab-income" class="stab-content">
+                    @include('pages.online_tax_user_details.tax_info.other-income')
+                </div>
+
+                <!-- OTHER EXPENSES -->
+                <div id="stab-expenses" class="stab-content">
+                    @include('pages.online_tax_user_details.tax_info.other-expenses')
+                </div>
+
+                <!-- REQUIRED STATE INFO -->
+                <div id="stab-state" class="stab-content">
+                    @include('pages.online_tax_user_details.tax_info.state-info')
+                </div>
+
+            </div>
+
+            <div id="tab-summary" class="tab-section">
+                <div class="alert alert-info">My Tax Summary – Coming Soon</div>
+            </div>
+
+            <div id="tab-invoice" class="tab-section">
+                <div class="alert alert-info">Invoice – Coming Soon</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection
+
+
+@section('scripts')
+<script>
+    // Sidebar click handler
+    document.querySelectorAll('#sidebarMenu a').forEach(menu => {
+        menu.addEventListener('click', function() {
+
+            document.querySelectorAll('#sidebarMenu a').forEach(m => m.classList.remove('active'));
+            this.classList.add('active');
+
+            document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
+
+            let tabId = "tab-" + this.dataset.tab;
+            document.getElementById(tabId).classList.add('active');
+
+            document.getElementById("pageTitle").innerHTML = this.innerText;
+        });
+    });
+
+    // SUB TABS INSIDE PERSONAL INFORMATION
+    document.querySelectorAll('#personalTabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', function () {
+
+            document.querySelectorAll('#personalTabs .nav-link')
+                .forEach(t => t.classList.remove('active'));
+
+            this.classList.add('active');
+
+            document.querySelectorAll('.ptab-content')
+                .forEach(c => c.classList.remove('active'));
+
+            const id = "ptab-" + this.dataset.ptab;
+            document.getElementById(id).classList.add('active');
+        });
+    });
+
+    // switching other tax information tabs
+    document.querySelectorAll('#otherTaxTabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', function () {
+
+            // remove active from ONLY THIS tab group
+            document.querySelectorAll('#otherTaxTabs .nav-link')
+                .forEach(t => t.classList.remove('active'));
+
+            this.classList.add('active');
+
+            // hide only content inside OTHER TAX container
+            document.querySelectorAll('#tab-otherinfo .stab-content')
+                .forEach(c => c.classList.remove('active'));
+
+            // show only selected content
+            const id = "stab-" + this.dataset.stab;
+            document.querySelector(`#tab-otherinfo #${id}`).classList.add('active');
+        });
+    });
+    
+    function setYesNo(field, value, element) {
+        let group = element.closest(".yesno-group");
+
+        // Hidden input update
+        group.parentNode.querySelector("input[name='" + field + "']").value = value;
+
+        // Remove old active
+        group.querySelectorAll(".yesno-option").forEach(btn => {
+            btn.classList.remove("active-yes", "active-no");
+        });
+
+        // Add active class
+        if (value === "Yes") {
+            element.classList.add("active-yes");
+        } else {
+            element.classList.add("active-no");
+        }
+
+        // Extra input logic
+        let extraBox = document.getElementById("extra_" + field);
+
+        if (value === "Yes") {
+            extraBox.style.display = "block";
+        } else {
+            extraBox.style.display = "none";
+
+            // CLEAR INPUT SAFELY
+            let input = extraBox.querySelector("input");
+            if (input) {
+                input.value = "";
+            }
+        }
+    }
+</script>
+@endsection
