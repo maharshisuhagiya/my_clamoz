@@ -267,8 +267,8 @@ class Authenticate extends Controller {
      * process new client signup action
      * @return \Illuminate\Http\Response
      */
-    public function signUpAction() {
-
+    public function signUpAction()
+    {
         //check if the feature is enabled
         if (config('system.settings_clients_registration') == 'disabled') {
             abort(409, __('lang.this_feature_is_unavailable'));
@@ -276,23 +276,31 @@ class Authenticate extends Controller {
 
         $messages = [];
 
-        //validate
+        // validate
         $validator = Validator::make(request()->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name'          => 'required',
+            'last_name'           => 'required',
             'client_company_name' => 'required',
-            'password' => 'required|confirmed|min:6',
-            'email' => 'email|required|unique:users,email',
+            'password'            => 'required|confirmed|min:6',
+            'email'               => 'email|required|unique:users,email',
+
+            // NEW
+            'timezone'            => 'required',
+            'contact_number'      => 'required',
+            'contact_country_code'   => 'required',
+            'accept_terms'        => 'accepted',
+
+            // whatsapp required only if checkbox tick
+            'whatsapp_number'        => 'required_if:whatsapp_not_same,on|nullable',
+            'whatsapp_country_code'  => 'required_with:whatsapp_number|nullable',
         ], $messages);
 
-        //errors
         if ($validator->fails()) {
             $errors = $validator->errors();
             $messages = '';
             foreach ($errors->all() as $message) {
                 $messages .= "<li>$message</li>";
             }
-
             abort(409, $messages);
         }
 
@@ -305,25 +313,41 @@ class Authenticate extends Controller {
         if (!$user = $this->userrepo->signUp($client->client_id)) {
             abort(409);
         }
+        
+        // ----------- ⭐ NEW CODE: CREATE TAXPAYER ENTRY ----------
+        \App\Models\Taxpayer::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id'    => $user->id,
+                'first_name' => request('first_name'),
+                'last_name'  => request('last_name'),
+                'email'      => request('email'),
+
+                // Contact Number
+                'mobile'     => request('contact_country_code') . request('contact_number'),
+
+                // WhatsApp or fallback to Contact
+                'alt_mobile' => request()->filled('whatsapp_number')
+                    ? request('whatsapp_country_code') . request('whatsapp_number')
+                    : request('contact_country_code') . request('contact_number'),
+            ]
+        );
+        // ---------------------------------------------------------
 
         //login the user
         $credentials = request()->only('email', 'password');
         $remember = true;
         Auth::attempt($credentials, $remember);
 
-        /** ----------------------------------------------
-         * send email to user
-         * ----------------------------------------------*/
+        //send welcome email
         $data = [
             'password' => request('password'),
         ];
         $mail = new \App\Mail\UserWelcome($user, $data);
         $mail->build();
 
-        //set flass session
         request()->session()->flash('success-notification-longer', __('lang.welcome_to_dashboard'));
 
-        //redirect to home
         $jsondata['redirect_url'] = url('home');
         return response()->json($jsondata);
     }

@@ -337,42 +337,65 @@ class UserRepository {
      * @param string $type team or client
      * @return bool
      */
-    public function signUp($clientId = '') {
-
+    public function signUp($clientId = '')
+    {
         //save new user
         $user = new $this->users;
 
         //data
-        $user->clientid = $clientId;
-        $user->password = Hash::make(request('password'));
-        $user->type = 'client';
-        $user->email = request('email');
-        $user->first_name = request('first_name');
-        $user->last_name = request('last_name');
-        $user->role_id = 2;
-        $user->creatorid = 0;
+        $user->clientid    = $clientId;
+        $user->password    = Hash::make(request('password'));
+        $user->type        = 'client';
+        $user->email       = request('email');
+        $user->first_name  = request('first_name');
+        $user->last_name   = request('last_name');
+        $user->role_id     = 2;
+        $user->creatorid   = 0;
         $user->account_owner = 'yes';
-        $user->timezone = config('system.settings_system_timezone');
 
-        //notification settings
-        $user->notifications_new_project = config('settings.default_notifications_client.notifications_new_project');
-        $user->notifications_projects_activity = config('settings.default_notifications_client.notifications_projects_activity');
-        $user->notifications_billing_activity = config('settings.default_notifications_client.notifications_billing_activity');
-        $user->notifications_tasks_activity = config('settings.default_notifications_client.notifications_tasks_activity');
-        $user->notifications_tickets_activity = config('settings.default_notifications_client.notifications_tickets_activity');
-        $user->notifications_system = config('settings.default_notifications_client.notifications_system');
+        // OLD: default timezone
+        // $user->timezone = config('system.settings_system_timezone');
 
-        //default language
+        // 🔥 NEW: user selected timezone
+        $user->timezone = request('timezone') ?: config('system.settings_system_timezone');
+
+        // 🔥 NEW: phone & whatsapp save
+        // full contact number with country code
+        // (example: +91 9876543210)
+        $contactFull = request('contact_country_code') . '' . request('contact_number');
+        $user->phone = trim($contactFull);
+
+        $user->contact_country_code   = request('contact_country_code');
+
+        if (request()->filled('whatsapp_number')) {
+            $whatsappFull = request('whatsapp_country_code') . '' . request('whatsapp_number');
+            $user->whatsapp_number       = trim($whatsappFull);
+            $user->whatsapp_country_code = request('whatsapp_country_code');
+        }
+
+        //notification settings (same as before)
+        $user->notifications_new_project        = config('settings.default_notifications_client.notifications_new_project');
+        $user->notifications_projects_activity  = config('settings.default_notifications_client.notifications_projects_activity');
+        $user->notifications_billing_activity   = config('settings.default_notifications_client.notifications_billing_activity');
+        $user->notifications_tasks_activity     = config('settings.default_notifications_client.notifications_tasks_activity');
+        $user->notifications_tickets_activity   = config('settings.default_notifications_client.notifications_tickets_activity');
+        $user->notifications_system             = config('settings.default_notifications_client.notifications_system');
+
+        //default language & theme
         $user->pref_language = config('system.settings_system_language_default');
+        $user->pref_theme    = config('system.settings_theme_name');
 
-        //default theme
-        $user->pref_theme = config('system.settings_theme_name');
-
-        //save
         if ($user->save()) {
             return $user;
         } else {
-            Log::error("record could not be saved - database error", ['process' => '[UserRepository]', config('app.debug_ref'), 'function' => __function__, 'file' => basename(__FILE__), 'line' => __line__, 'path' => __file__]);
+            Log::error("record could not be saved - database error", [
+                'process' => '[UserRepository]',
+                config('app.debug_ref'),
+                'function' => __function__,
+                'file' => basename(__FILE__),
+                'line' => __line__,
+                'path' => __file__,
+            ]);
             return false;
         }
     }

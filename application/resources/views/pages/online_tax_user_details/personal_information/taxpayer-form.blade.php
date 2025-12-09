@@ -140,9 +140,25 @@
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label>Select Visa Type</label>
-                <input type="text" name="visa_type"
-                       value="{{ old('visa_type', $taxpayer->visa_type ?? '') }}"
-                       class="form-control">
+
+                <select id="visa_type" class="form-control" name="visa_type">
+                    @php
+                        $visaTypes = [
+                            'H1A','H1B','H4','L2','L1A','L1B','F1 OPT','F1 CPT','M','J','Q','EAD',
+                            'Green Card','Us Citizen','Not Available'
+                        ];
+                        $selectedVisa = old('visa_type', $taxpayer->visa_type ?? '');
+                    @endphp
+
+                    <option value="">Select Visa Type</option>
+
+                    @foreach ($visaTypes as $visa)
+                        <option value="{{ $visa }}" {{ $selectedVisa == $visa ? 'selected' : '' }}>
+                            {{ $visa }}
+                        </option>
+                    @endforeach
+                </select>
+
                 <small class="error-text" id="taxpayer_visa_type_error"></small>
             </div>
 
@@ -156,9 +172,29 @@
 
             <div class="col-md-4 mb-3">
                 <label>Filing Status</label>
-                <input type="text" name="filing_status"
-                       value="{{ old('filing_status', $taxpayer->filing_status ?? '') }}"
-                       class="form-control">
+
+                <select id="filing_status" class="form-control" name="filing_status">
+                    @php
+                        $filingStatusList = [
+                            'Single',
+                            'Married Filing Jointly',
+                            'Married Filing Separately',
+                            'Head of Household',
+                            'Qualifying Widow'
+                        ];
+
+                        $selectedStatus = old('filing_status', $taxpayer->filing_status ?? '');
+                    @endphp
+
+                    <option value="">Select Filing Status</option>
+
+                    @foreach ($filingStatusList as $status)
+                        <option value="{{ $status }}" {{ $selectedStatus == $status ? 'selected' : '' }}>
+                            {{ $status }}
+                        </option>
+                    @endforeach
+                </select>
+
                 <small class="error-text" id="taxpayer_filing_status_error"></small>
             </div>
         </div>

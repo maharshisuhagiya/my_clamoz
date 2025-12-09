@@ -902,19 +902,47 @@ function NXAuthentication() {
      *--------------------------------------------------------------*/
     if ($("#signUpForm").length) {
         $("#signUpForm").validate({
+            ignore: [],
+
             rules: {
-                first_name: "required",
-                last_name: "required",
-                client_company_name: "required",
-                email: "required",
-                password: {
-                    required: true,
-                    minlength: 6,
+                first_name: { required: true },
+                last_name: { required: true },
+                client_company_name: { required: true },
+                email: { required: true, email: true },
+                timezone: { required: true },
+                password: { required: true, minlength: 6 },
+                password_confirmation: { required: true, equalTo: "#password" },
+
+                contact_number: { required: true },
+
+                whatsapp_number: {
+                    required: function () {
+                        return $("#whatsapp_not_same").is(":checked");
+                    }
                 },
-                password_confirmation: {
-                    equalTo: "#password"
-                },
+
+                accept_terms: { required: true }
             },
+
+            messages: {
+                whatsapp_number: "Please enter WhatsApp number",
+                accept_terms: "You must accept terms and conditions",
+            },
+
+            // ⭐ FIX: SHOW CHECKBOX ERRORS PROPERLY
+            errorPlacement: function (error, element) {
+
+                if (element.attr("name") === "accept_terms") {
+                    error.insertAfter(element.closest("label"));
+                }
+                else if (element.attr("name") === "whatsapp_not_same") {
+                    error.insertAfter(element.closest("label"));
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+
             submitHandler: function (form) {
                 nxAjaxUxRequest($("#signupButton"));
             }
