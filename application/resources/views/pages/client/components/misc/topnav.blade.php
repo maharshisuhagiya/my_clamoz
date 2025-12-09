@@ -159,4 +159,13 @@
 
     <!--[MODULES] - dynamic menu-->
     {!! config('modules.menus.tabs.client.parent10') !!}
+
+    <!--tax details-->
+    <li class="nav-item">
+        <a class="nav-link tabs-menu-item"
+            href="{{ route('online_tax.user.details', ['id' => $client->id]) }}"
+            role="tab">
+            {{ __('Tax Details') }}
+        </a>
+    </li>
 </ul>
