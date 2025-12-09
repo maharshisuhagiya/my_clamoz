@@ -13,20 +13,20 @@
                     'Have you received any interest & dividend income for 2025? If yes please upload 1099-INT & DIV',
                     'Do you have any taxable refunds from state or local departments and unemployment compensation? If yes please upload 1099-G',
                     'Did you receive any business income or loss for the year 2025? If yes please upload 1099-MISC',
-                    'Have you sold any Stocks in 2025? If yes please provide 1099-B document',
+                    'Have you sold any Stocks in 2025 if yes please provide 1099-B document.',
                     'Do you have any rental income & incurred any expenses related to that rental property?',
-                    'Do you have any farm income or loss? If yes please update the information',
+                    'Do you have any farm income or loss? If yes please update the information.?',
                     'Did you receive any social security benefits for the year 2025? If yes please upload 1099-SSA',
                     'Any other income, please specify',
                     'Do you have any gambling winnings? If yes please provide W-2G',
-                    'Did you receive any income from India? If yes, please update the source documents',
-                    'Have you withdrawn money from HSA? If yes please upload form 1099-SA',
-                    'Have you withdrawn money from IRA? If yes please enter the amount and form 1099-R',
-                    'Did you get any income or losses from royalties, partnerships, corporations & trusts etc? If yes please upload schedule K-1',
-                    'Have you sold your main home? If yes please provide form 1099-S',
-                    'Have you received any third party payment? If yes please provide form 1099-K',
+                    'Did you receive any income from India? If yes Please update the source documents.',
+                    'Have you withdraw money from HSA? If yes please upload form 1099-SA.',
+                    'Have you withdraw money from IRA? If yes please enter the amount and form 1099-R.',
+                    'Did you get any income or losses from royalties, partnership, s-corporation & trusts etc. if yes please upload schedule k-1 (form 1065 or form 1120s).',
+                    'Have you sold your main home? If yes please provide form 1099-S.',
+                    'Have you received any third party payment? If yes please provide form 1099-K.',
                     'Commission received or paid?',
-                    'If you sold any ESPP please provide form 3922'
+                    'If you sold any ESPP please provide us form 3922.'
                 ];
             @endphp
 

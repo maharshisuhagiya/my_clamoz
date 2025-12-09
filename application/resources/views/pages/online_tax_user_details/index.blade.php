@@ -63,6 +63,15 @@
         margin-top: 10px;
         display: none;
     }
+
+    .list-group-item.active {
+        background-color: #1586b0 !important;
+        border-color: #1586b0 !important;
+    }
+
+    .btn-primary{
+        background: #1586b0 !important;
+    }
 </style>
 
 <div class="container-fluid" style="padding: 32px 13px;">

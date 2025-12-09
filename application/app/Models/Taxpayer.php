@@ -14,7 +14,7 @@ class Taxpayer extends Model
         'ssn_itin', 'occupation',
         'dob', 'gender',
         'email', 'mobile', 'alt_mobile',
-        'street', 'state', 'country', 'zip',
+        'street', 'city', 'state', 'country', 'country_of_citizenship', 'zip', 'first_port_entry_date',
         'visa_type', 'current_employer', 'filing_status'
     ];
 }

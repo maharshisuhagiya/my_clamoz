@@ -86,7 +86,7 @@
                 <small class="error-text" id="taxpayer_email_error"></small>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <label>Mobile Number</label>
                 <input type="text" name="mobile"
                        value="{{ old('mobile', $taxpayer->mobile ?? '') }}"
@@ -94,7 +94,7 @@
                 <small class="error-text" id="taxpayer_mobile_error"></small>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <label>Alternate Mobile Number</label>
                 <input type="text" name="alt_mobile"
                        value="{{ old('alt_mobile', $taxpayer->alt_mobile ?? '') }}"
@@ -102,12 +102,20 @@
                 <small class="error-text" id="taxpayer_alt_mobile_error"></small>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label>Apartment / Street No</label>
                 <input type="text" name="street"
                        value="{{ old('street', $taxpayer->street ?? '') }}"
                        class="form-control">
                 <small class="error-text" id="taxpayer_street_error"></small>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>City</label>
+                <input type="text" name="city"
+                       value="{{ old('city', $taxpayer->city ?? '') }}"
+                       class="form-control">
+                <small class="error-text" id="taxpayer_city_error"></small>
             </div>
 
             <div class="col-md-4 mb-3">
@@ -127,11 +135,27 @@
             </div>
 
             <div class="col-md-4 mb-3">
+                <label>Country of Citizenship</label>
+                <input type="text" name="country_of_citizenship"
+                    value="{{ old('country_of_citizenship', $taxpayer->country_of_citizenship ?? '') }}"
+                    class="form-control">
+                <small class="error-text" id="taxpayer_country_of_citizenship_error"></small>
+            </div>
+
+            <div class="col-md-4 mb-3">
                 <label>Zip Code</label>
                 <input type="text" name="zip"
                        value="{{ old('zip', $taxpayer->zip ?? '') }}"
                        class="form-control">
                 <small class="error-text" id="taxpayer_zip_error"></small>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>First Port of Entry Date to USA</label>
+                <input type="date" name="first_port_entry_date"
+                    value="{{ old('first_port_entry_date', $taxpayer->first_port_entry_date ?? '') }}"
+                    class="form-control">
+                <small class="error-text" id="first_port_entry_date_error"></small>
             </div>
         </div>
 
