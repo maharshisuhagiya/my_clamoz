@@ -107,11 +107,11 @@
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="income">
-                    <i class="ti-bar-chart"></i> Other Income Details
+                    <i class="ti-bar-chart"></i> Income Details
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="expenses">
-                    <i class="ti-money"></i> Other Expenses Details
+                    <i class="ti-money"></i> Expenses Details
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="state">

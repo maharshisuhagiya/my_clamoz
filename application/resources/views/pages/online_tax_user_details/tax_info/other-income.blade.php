@@ -1,7 +1,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
 
-        <h5 class="text-primary mb-3">OTHER INCOME DETAILS</h5>
+        <h5 class="text-primary mb-3">INCOME DETAILS</h5>
 
         <form id="otherIncomeForm">
             @csrf
