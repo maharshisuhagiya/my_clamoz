@@ -122,9 +122,9 @@
                     <i class="ti-layers-alt"></i> My Tax Summary
                 </a>
 
-                {{-- <a class="list-group-item list-group-item-action" data-tab="invoice">
-                    <i class="ti-receipt"></i> Invoice
-                </a> --}}
+                <a class="list-group-item list-group-item-action" data-tab="rewards">
+                    <i class="ti-gift"></i> Referral Rewards
+                </a>
 
             </div>
         </div>
@@ -243,8 +243,54 @@
                 @include('pages.online_tax_user_details.tax_summary')
             </div>
 
-            <div id="tab-invoice" class="tab-section">
-                <div class="alert alert-info">Invoice – Coming Soon</div>
+            <div id="tab-rewards" class="tab-section">
+
+                <!-- TOP TOTAL REWARD CARD -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h4 class="text-primary">Total Reward Points</h4>
+                        <h2 class="text-success">{{ $totalRewards }}</h2>
+                    </div>
+                </div>
+
+                <!-- USER WISE REWARD BREAKDOWN -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <h4 class="text-primary mb-3">Reward Earned From Each User</h4>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Joined</th>
+                                    <th>Reward Earned</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($rewardBreakdown as $key => $u)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $u->first_name }} {{ $u->last_name }}</td>
+                                    <td>{{ $u->email }}</td>
+                                    <td>{{ optional($u->created)->format('d M Y') }}</td>
+
+                                    <!-- Reward per user = 50 (your system logic) -->
+                                    <td class="text-success fw-bold">50</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No referred users yet.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>

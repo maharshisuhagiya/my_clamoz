@@ -14,6 +14,8 @@ use App\Models\OtherIncomeEntry;
 use App\Models\OtherExpenseEntry;
 use App\Models\RequiredStateEntry;
 use App\Models\TaxSummary;
+use App\Models\ReferralReward;
+use App\Models\User;
 
 class OnlineTaxController extends Controller
 {
@@ -38,8 +40,9 @@ class OnlineTaxController extends Controller
         $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $summaryFiles = TaxSummary::where('user_id', $userId)->whereNotNull('file_path')->get();
         $summaryText = TaxSummary::where('user_id', $userId)->whereNotNull('summary_text')->first();
-
-        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText'));
+        $totalRewards = ReferralReward::where('user_id', $userId)->sum('reward_value');
+        $rewardBreakdown = User::where('referred_by', $userId)->get();
+        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'totalRewards', 'rewardBreakdown'));
     }
 
     public function userDetails($id)
@@ -57,8 +60,10 @@ class OnlineTaxController extends Controller
         $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $summaryFiles = TaxSummary::where('user_id', $userId)->whereNotNull('file_path')->get();
         $summaryText = TaxSummary::where('user_id', $userId)->whereNotNull('summary_text')->first();
+        $totalRewards = ReferralReward::where('user_id', $userId)->sum('reward_value');
+        $rewardBreakdown = User::where('referred_by', $userId)->get();
 
-        return view('pages.online_tax_user_details.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'userId'));
+        return view('pages.online_tax_user_details.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'userId', 'totalRewards', 'rewardBreakdown'));
     }
 
     // ---------------------- TAXPAYER ----------------------
