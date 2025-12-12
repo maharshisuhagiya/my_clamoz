@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Log;
+use Illuminate\Support\Str;
 
 class UserRepository {
 
@@ -337,7 +338,7 @@ class UserRepository {
      * @param string $type team or client
      * @return bool
      */
-    public function signUp($clientId = '')
+    public function signUp($clientId = '', $referredBy = 0)
     {
         //save new user
         $user = new $this->users;
@@ -352,6 +353,12 @@ class UserRepository {
         $user->role_id     = 2;
         $user->creatorid   = 0;
         $user->account_owner = 'yes';
+
+        // REFERRAL SAVE
+        $user->referred_by = $referredBy;
+
+        // GENERATE REFERRAL CODE
+        $user->referral_code = strtoupper(Str::random(8));
 
         // OLD: default timezone
         // $user->timezone = config('system.settings_system_timezone');

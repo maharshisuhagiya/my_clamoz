@@ -293,6 +293,8 @@ class Authenticate extends Controller {
             // whatsapp required only if checkbox tick
             'whatsapp_number'        => 'required_if:whatsapp_not_same,on|nullable',
             'whatsapp_country_code'  => 'required_with:whatsapp_number|nullable',
+
+            'referral_code'       => 'nullable|exists:users,referral_code',
         ], $messages);
 
         if ($validator->fails()) {
@@ -309,9 +311,25 @@ class Authenticate extends Controller {
             abort(409);
         }
 
+        $referral = request('referral_code') ?? request('ref');
+        $referrer = null;
+        $user_id = 0;
+
+        if ($referral) {
+            $referrer = \App\Models\User::where('referral_code', $referral)->first();
+            $user_id = $referrer ? $referrer->id : 0;
+        }
+
         //create user
-        if (!$user = $this->userrepo->signUp($client->client_id)) {
+        if (!$user = $this->userrepo->signUp($client->client_id, $user_id)) {
             abort(409);
+        }
+
+        if ($referrer) {
+            \App\Models\ReferralReward::create([
+                'user_id' => $referrer->id,
+                'reward_value' => 50,
+            ]);
         }
         
         // ----------- ⭐ NEW CODE: CREATE TAXPAYER ENTRY ----------

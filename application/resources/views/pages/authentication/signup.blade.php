@@ -111,6 +111,15 @@
                     placeholder="Whatsapp Number">
             </div>
 
+            <!-- REFERRAL CODE -->
+            <div class="form-group col-md-6 m-t-20">
+                <input class="form-control" 
+                    type="text" 
+                    name="referral_code" 
+                    id="referral_code"
+                    placeholder="Referral Code (Optional)">
+            </div>
+
             <input type="hidden" name="contact_country_code" id="contact_country_code">
             <input type="hidden" name="whatsapp_country_code" id="whatsapp_country_code">
 
@@ -265,6 +274,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // AUTO FILL REFERRAL CODE FROM URL ?ref=
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref");
+
+    if (ref) {
+        const input = document.getElementById("referral_code");
+        input.value = ref;
+        input.readOnly = true;
+        input.style.background = "#e9ecef";
+    }
 });
 </script>
 @endsection

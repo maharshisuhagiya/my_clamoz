@@ -797,6 +797,7 @@ return [
     'left_menu_position' => "Left Menu Position - Default Position",
     'left' => "Left",
     'online_tax' => "Online Tax",
+    'referral' => "Referral",
     'light_mode' => "Light Mode",
     'linked_to' => "Linked To",
     'list_view' => "List View",

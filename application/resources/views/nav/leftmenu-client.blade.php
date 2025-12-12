@@ -127,6 +127,16 @@
                         <span class="hide-menu">{{ cleanLang(__('lang.online_tax')) }}</span>
                     </a>
                 </li>
+
+                <li data-modular-id="main_menu_referral"
+                    class="sidenav-menu-item menu-tooltip menu-with-tooltip"
+                    title="{{ cleanLang(__('lang.referral')) }}">
+
+                    <a class="waves-effect waves-dark" href="/referral" aria-expanded="false" target="_self">
+                        <i class="ti-gift"></i>
+                        <span class="hide-menu">{{ cleanLang(__('lang.referral')) }}</span>
+                    </a>
+                </li>
                                                 
                 <!--[MODULES] - dynamic menu-->
                 {!! config('modules.menus.main.parent5') !!}

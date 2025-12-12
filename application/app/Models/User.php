@@ -321,4 +321,13 @@ class User extends Authenticatable {
         return $this->hasMany('App\Models\Starred', 'starred_userid', 'id');
     }
 
+    public function referredUsers()
+    {
+        return $this->hasMany(User::class, 'referred_by');
+    }
+
+    public function rewards()
+    {
+        return $this->hasMany(ReferralReward::class, 'user_id');
+    }
 }

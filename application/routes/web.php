@@ -373,6 +373,10 @@ Route::group(['prefix' => 'online_tax'], function () {
     Route::post('/save-summary', "OnlineTaxController@saveSummary")->name('save.summary');
 });
 
+Route::group(['prefix' => 'referral'], function () {
+    Route::get("/", "ReferralController@index");
+});
+
 //LEADS & LEAD
 Route::group(['prefix' => 'leads'], function () {
     Route::any("/search", "Leads@index");
