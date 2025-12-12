@@ -72,6 +72,11 @@
     .btn-primary{
         background: #1586b0 !important;
     }
+
+    .list-group-item i {
+        margin-right: 8px;
+        font-size: 16px;
+    }
 </style>
 
 <div class="container-fluid" style="padding: 32px 13px;">
@@ -93,8 +98,24 @@
                     <i class="ti-upload"></i> Upload Documents
                 </a>
 
-                <a class="list-group-item list-group-item-action" data-tab="otherinfo">
+                {{-- <a class="list-group-item list-group-item-action" data-tab="otherinfo">
                     <i class="ti-info-alt"></i> Other Tax Information
+                </a> --}}
+
+                <a class="list-group-item list-group-item-action" data-tab="bank">
+                    <i class="ti-credit-card"></i> Bank Details
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="income">
+                    <i class="ti-bar-chart"></i> Other Income Details
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="expenses">
+                    <i class="ti-money"></i> Other Expenses Details
+                </a>
+
+                <a class="list-group-item list-group-item-action" data-tab="state">
+                    <i class="ti-map-alt"></i> Required Information For State
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="summary">
@@ -160,7 +181,23 @@
                 @include('pages.online_tax.upload_documents')
             </div>
 
-            <div id="tab-otherinfo" class="tab-section">
+            <div id="tab-bank" class="tab-section">
+                @include('pages.online_tax.tax_info.bank-details')
+            </div>
+
+            <div id="tab-income" class="tab-section">
+                @include('pages.online_tax.tax_info.other-income')
+            </div>
+
+            <div id="tab-expenses" class="tab-section">
+                @include('pages.online_tax.tax_info.other-expenses')
+            </div>
+
+            <div id="tab-state" class="tab-section">
+                @include('pages.online_tax.tax_info.state-info')
+            </div>
+
+            {{-- <div id="tab-otherinfo" class="tab-section">
 
                 <!-- ======= TOP SUB-TABS (inside OTHER TAX INFO) ======= -->
                 <ul class="nav nav-tabs mb-4" id="otherTaxTabs">
@@ -200,10 +237,10 @@
                     @include('pages.online_tax.tax_info.state-info')
                 </div>
 
-            </div>
+            </div> --}}
 
             <div id="tab-summary" class="tab-section">
-                <div class="alert alert-info">My Tax Summary – Coming Soon</div>
+                @include('pages.online_tax.tax_summary')
             </div>
 
             <div id="tab-invoice" class="tab-section">
@@ -218,6 +255,7 @@
 
 
 @section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
     // Sidebar click handler
     document.querySelectorAll('#sidebarMenu a').forEach(menu => {
@@ -253,24 +291,24 @@
     });
 
     // switching other tax information tabs
-    document.querySelectorAll('#otherTaxTabs .nav-link').forEach(tab => {
-        tab.addEventListener('click', function () {
+    // document.querySelectorAll('#otherTaxTabs .nav-link').forEach(tab => {
+    //     tab.addEventListener('click', function () {
 
-            // remove active from ONLY THIS tab group
-            document.querySelectorAll('#otherTaxTabs .nav-link')
-                .forEach(t => t.classList.remove('active'));
+    //         // remove active from ONLY THIS tab group
+    //         document.querySelectorAll('#otherTaxTabs .nav-link')
+    //             .forEach(t => t.classList.remove('active'));
 
-            this.classList.add('active');
+    //         this.classList.add('active');
 
-            // hide only content inside OTHER TAX container
-            document.querySelectorAll('#tab-otherinfo .stab-content')
-                .forEach(c => c.classList.remove('active'));
+    //         // hide only content inside OTHER TAX container
+    //         document.querySelectorAll('#tab-otherinfo .stab-content')
+    //             .forEach(c => c.classList.remove('active'));
 
-            // show only selected content
-            const id = "stab-" + this.dataset.stab;
-            document.querySelector(`#tab-otherinfo #${id}`).classList.add('active');
-        });
-    });
+    //         // show only selected content
+    //         const id = "stab-" + this.dataset.stab;
+    //         document.querySelector(`#tab-otherinfo #${id}`).classList.add('active');
+    //     });
+    // });
 
     $("#taxpayerForm").on("submit", function(e){
         e.preventDefault();

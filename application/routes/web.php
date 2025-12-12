@@ -370,6 +370,7 @@ Route::group(['prefix' => 'online_tax'], function () {
     Route::post('/income/save', "OnlineTaxController@saveIncome")->name('income.save');
     Route::post('/expenses/save', "OnlineTaxController@saveExpenses")->name('expenses.save');
     Route::post('/state/save', "OnlineTaxController@saveStateInfo")->name('state.save');
+    Route::post('/save-summary', "OnlineTaxController@saveSummary")->name('save.summary');
 });
 
 //LEADS & LEAD

@@ -13,6 +13,7 @@ use App\Models\BankDetail;
 use App\Models\OtherIncomeEntry;
 use App\Models\OtherExpenseEntry;
 use App\Models\RequiredStateEntry;
+use App\Models\TaxSummary;
 
 class OnlineTaxController extends Controller
 {
@@ -35,8 +36,10 @@ class OnlineTaxController extends Controller
         $otherIncomeEntries = OtherIncomeEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $otherExpenseEntries = OtherExpenseEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
+        $summaryFiles = TaxSummary::where('user_id', $userId)->whereNotNull('file_path')->get();
+        $summaryText = TaxSummary::where('user_id', $userId)->whereNotNull('summary_text')->first();
 
-        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries'));
+        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText'));
     }
 
     public function userDetails($id)
@@ -52,8 +55,10 @@ class OnlineTaxController extends Controller
         $otherIncomeEntries = OtherIncomeEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $otherExpenseEntries = OtherExpenseEntry::where('user_id', $userId)->get()->keyBy('question_no');
         $stateEntries = RequiredStateEntry::where('user_id', $userId)->get()->keyBy('question_no');
+        $summaryFiles = TaxSummary::where('user_id', $userId)->whereNotNull('file_path')->get();
+        $summaryText = TaxSummary::where('user_id', $userId)->whereNotNull('summary_text')->first();
 
-        return view('pages.online_tax_user_details.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries'));
+        return view('pages.online_tax_user_details.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'userId'));
     }
 
     // ---------------------- TAXPAYER ----------------------
@@ -404,6 +409,48 @@ class OnlineTaxController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Required State Information Saved Successfully!'
+        ]);
+    }
+
+    public function saveSummary(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'summary_text' => 'required|min:3',
+            'summary_files.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        // SAVE text (update or create)
+        $summary = TaxSummary::updateOrCreate(
+            ['user_id' => $request->user_id],
+            [
+                'user_id'      => $request->user_id,
+                'summary_text' => $request->summary_text
+            ]
+        );
+
+        // SAVE uploaded files — multiple
+        if ($request->hasFile('summary_files')) {
+            foreach ($request->summary_files as $file) {
+                $path = $file->store('uploads/tax_summary', 'public');
+
+                TaxSummary::create([
+                    'user_id'      => $request->user_id,
+                    'summary_text' => null,
+                    'file_path'    => $path
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Summary Saved Successfully!'
         ]);
     }
 }
