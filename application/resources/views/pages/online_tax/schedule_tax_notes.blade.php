@@ -5,7 +5,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
 
-        <h4 class="text-primary mb-2">SCHEDULED TAX NOTES</h4>
+        <h4 class="text-primary mb-2">Book for Interview</h4>
         <p style="font-size: 14px;color:#444;">
             (please schedule your convenient time to take the additional tax information which will helps to get more benefits)
         </p>

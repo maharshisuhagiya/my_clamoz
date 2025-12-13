@@ -280,7 +280,7 @@ class Authenticate extends Controller {
         $validator = Validator::make(request()->all(), [
             'first_name'          => 'required',
             'last_name'           => 'required',
-            'client_company_name' => 'required',
+            'client_company_name' => 'nullable',
             'password'            => 'required|confirmed|min:6',
             'email'               => 'email|required|unique:users,email',
 

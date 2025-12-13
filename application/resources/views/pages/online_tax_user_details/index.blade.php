@@ -91,7 +91,7 @@
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="taxnotes">
-                    <i class="ti-notepad"></i> Schedule Tax Notes
+                    <i class="ti-notepad"></i> Book for Interview
                 </a>
 
                 <a class="list-group-item list-group-item-action" data-tab="upload">

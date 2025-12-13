@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitBtn      = document.querySelector("#signupButton");
     const termsCheckbox  = document.querySelector("input[name='accept_terms']");
 
-    const DEFAULT_COUNTRY = "in";
+    const DEFAULT_COUNTRY = "us";
 
     // CONTACT INPUT
     let contactIti = window.intlTelInput(contactInput, {

@@ -907,7 +907,6 @@ function NXAuthentication() {
             rules: {
                 first_name: { required: true },
                 last_name: { required: true },
-                client_company_name: { required: true },
                 email: { required: true, email: true },
                 timezone: { required: true },
                 password: { required: true, minlength: 6 },
