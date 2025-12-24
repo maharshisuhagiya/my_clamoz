@@ -145,6 +145,45 @@ class Authenticate extends Controller {
 
         //check credentials
         if (Auth::attempt($credentials, $remember)) {
+
+            // ❌ EMAIL NOT VERIFIED
+            if (auth()->user()->email_verified_at === null) {
+
+                $user = auth()->user();
+
+                // logout immediately
+                auth()->logout();
+
+                // ⏱ OTP COOLDOWN CHECK (1–2 min)
+                if ($user->otp_expires_at && now()->diffInSeconds($user->otp_expires_at, false) > -540) {
+                    return response()->json([
+                        'redirect_url' => url('verify-email?email=' . $user->email),
+                        'message' => 'OTP already sent. Please check your email.',
+                    ]);
+                }
+
+                // 🔐 Generate new OTP
+                $otp = rand(100000, 999999);
+
+                $user->update([
+                    'otp'            => bcrypt($otp),
+                    'otp_expires_at' => now()->addMinutes(10),
+                ]);
+
+                // 📧 Send OTP email
+                $mail = new \App\Mail\UserOtpVerification($user, [
+                    'otp' => $otp,
+                    'otp_valid_minutes' => 10,
+                ]);
+                $mail->build();
+
+                // 🔁 Redirect to verify page
+                return response()->json([
+                    'redirect_url' => url('verify-email?email=' . $user->email),
+                    'message' => 'We have sent a new OTP to your email. Please verify to continue.',
+                ]);
+            }
+
             //if client - check if account is not suspended
             if (auth()->user()->is_client) {
                 if ($client = \App\Models\Client::Where('client_id', auth()->user()->clientid)->first()) {
@@ -298,9 +337,8 @@ class Authenticate extends Controller {
         ], $messages);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
             $messages = '';
-            foreach ($errors->all() as $message) {
+            foreach ($validator->errors()->all() as $message) {
                 $messages .= "<li>$message</li>";
             }
             abort(409, $messages);
@@ -311,17 +349,14 @@ class Authenticate extends Controller {
             abort(409);
         }
 
+        // referral
         $referral = request('referral_code') ?? request('ref');
-        $referrer = null;
-        $user_id = 0;
-
-        if ($referral) {
-            $referrer = \App\Models\User::where('referral_code', $referral)->first();
-            $user_id = $referrer ? $referrer->id : 0;
-        }
+        $referrer = $referral
+            ? \App\Models\User::where('referral_code', $referral)->first()
+            : null;
 
         //create user
-        if (!$user = $this->userrepo->signUp($client->client_id, $user_id)) {
+        if (!$user = $this->userrepo->signUp($client->client_id, $referrer->id ?? 0)) {
             abort(409);
         }
 
@@ -331,43 +366,119 @@ class Authenticate extends Controller {
                 'reward_value' => 50,
             ]);
         }
-        
-        // ----------- ⭐ NEW CODE: CREATE TAXPAYER ENTRY ----------
+
+        // ----------- CREATE TAXPAYER ----------
         \App\Models\Taxpayer::updateOrCreate(
             ['user_id' => $user->id],
             [
-                'user_id'    => $user->id,
                 'first_name' => request('first_name'),
                 'last_name'  => request('last_name'),
                 'email'      => request('email'),
-
-                // Contact Number
                 'mobile'     => request('contact_country_code') . request('contact_number'),
-
-                // WhatsApp or fallback to Contact
                 'alt_mobile' => request()->filled('whatsapp_number')
                     ? request('whatsapp_country_code') . request('whatsapp_number')
                     : request('contact_country_code') . request('contact_number'),
             ]
         );
-        // ---------------------------------------------------------
 
-        //login the user
-        $credentials = request()->only('email', 'password');
-        $remember = true;
-        Auth::attempt($credentials, $remember);
+        // ✅ -------- OTP GENERATION ----------
+        $otp = rand(100000, 999999);
 
-        //send welcome email
-        $data = [
-            'password' => request('password'),
-        ];
-        $mail = new \App\Mail\UserWelcome($user, $data);
+        $user->update([
+            'otp'             => bcrypt($otp),
+            'otp_expires_at'  => now()->addMinutes(10),
+            'email_verified_at' => null,
+        ]);
+
+        // ✅ SEND OTP EMAIL
+        $mail = new \App\Mail\UserOtpVerification($user, [
+            'otp' => $otp,
+            'otp_valid_minutes' => 10,
+        ]);
         $mail->build();
 
-        request()->session()->flash('success-notification-longer', __('lang.welcome_to_dashboard'));
+        // flash message
+        request()->session()->flash(
+            'success-notification-longer',
+            'OTP has been sent to your email. Please verify.'
+        );
 
-        $jsondata['redirect_url'] = url('home');
-        return response()->json($jsondata);
+        // redirect to OTP page
+        return response()->json([
+            'redirect_url' => url('verify-email?email=' . $user->email),
+        ]);
+    }
+
+    public function verifyEmailOtp()
+    {
+        request()->validate([
+            'otp' => 'required|digits:6',
+        ]);
+
+        // get last registered user by email
+        $user = \App\Models\User::where('email', request('email'))->first();
+
+        if (!$user || !$user->otp) {
+            abort(409, 'OTP not found.');
+        }
+
+        if (now()->gt($user->otp_expires_at)) {
+            abort(409, 'OTP expired.');
+        }
+
+        if (!password_verify(request('otp'), $user->otp)) {
+            abort(409, 'Invalid OTP.');
+        }
+
+        // verified
+        $user->update([
+            'otp' => null,
+            'otp_expires_at' => null,
+            'email_verified_at' => now(),
+        ]);
+
+        Auth::login($user, true);
+
+        return response()->json([
+            'redirect_url' => url('home')
+        ]);
+    }
+
+    public function resendEmailOtp()
+    {
+        request()->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = \App\Models\User::where('email', request('email'))->first();
+
+        if (!$user) {
+            abort(409, 'User not found.');
+        }
+
+        // Already verified?
+        if ($user->email_verified_at) {
+            abort(409, 'Email already verified.');
+        }
+
+        // Generate new OTP
+        $otp = rand(100000, 999999);
+
+        $user->update([
+            'otp'            => bcrypt($otp),
+            'otp_expires_at' => now()->addMinutes(10),
+        ]);
+
+        // Send OTP email
+        $mail = new \App\Mail\UserOtpVerification($user, [
+            'otp' => $otp,
+            'otp_valid_minutes' => 10,
+        ]);
+        $mail->build();
+
+        return response()->json([
+            'message' => 'OTP resent successfully.',
+        ]);
     }
 
     /**

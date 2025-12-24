@@ -18,6 +18,12 @@ Route::get("/forgotpassword", "Authenticate@forgotPassword");
 Route::post("/forgotpassword", "Authenticate@forgotPasswordAction");
 Route::get("/signup", "Authenticate@signUp");
 Route::post("/signup", "Authenticate@signUpAction");
+Route::get('/verify-email', function () {
+    return view('pages.authentication.verify-email');
+});
+
+Route::post('/verify-email', 'Authenticate@verifyEmailOtp');
+Route::post('/resend-email-otp', 'Authenticate@resendEmailOtp');
 Route::get("/resetpassword", "Authenticate@resetPassword");
 Route::post("/resetpassword", "Authenticate@resetPasswordAction");
 Route::get("/access", "Authenticate@directLoginAccess"); //SAAS
