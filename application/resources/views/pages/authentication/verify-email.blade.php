@@ -27,6 +27,16 @@
         <!-- OPTIONAL: hidden email -->
         <input type="hidden" name="email" value="{{ request('email') }}">
 
+        <p>Notes</p>
+        <ul>
+            <li>
+                Due to a technical issue, our emails may occasionally be delivered to your spam folder. Kindly check your spam folder.
+            </li>
+            <li>
+                Please allow up to 30 seconds for the OTP to be delivered.
+            </li>
+        </ul>
+
         <button class="btn btn-info btn-lg btn-block m-t-20"
                 data-url="{{ url('verify-email') }}"
                 data-ajax-type="POST"

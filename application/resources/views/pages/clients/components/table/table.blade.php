@@ -9,7 +9,7 @@
                         <!--tableconfig_column_1 [client_id]-->
                         <th class="col_client_id {{ config('table.tableconfig_column_1') }} tableconfig_column_1">
                             <a class="js-ajax-ux-request js-list-sorting" id="sort_client_id" href="javascript:void(0)"
-                                data-url="{{ urlResource('/clients?action=sort&orderby=client_id&sortorder=asc') }}">{{ cleanLang(__('lang.id')) }}<span
+                                data-url="{{ urlResource('/clients?action=sort&orderby=client_id&sortorder=asc') }}">CRN No.<span
                                     class="sorting-icons"><i class="ti-arrows-vertical"></i></span></a>
                         </th>
 

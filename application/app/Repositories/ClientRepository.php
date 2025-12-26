@@ -61,6 +61,8 @@ class ClientRepository {
             }
         });
 
+        $clients = $clients->whereNotNull('client_company_name')->where('client_company_name', '!=', '');
+
         // all client fields
         $clients->selectRaw('*');
 

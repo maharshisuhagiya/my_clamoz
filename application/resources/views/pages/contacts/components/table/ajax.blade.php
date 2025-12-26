@@ -13,6 +13,7 @@
         </span>
     </td>
     @endif
+    <td>{{ $contact->id }}</td>
     <td class="contacts_col_first_name" id="contacts_col_first_name_{{ $contact->id }}">
         <span class="user-avatar-container"><img src="{{ $contact->avatar }}" alt="user"
                 class="img-circle avatar-xsmall">

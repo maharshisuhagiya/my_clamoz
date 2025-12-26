@@ -43,13 +43,13 @@
                         @if(config('visibility.modules.clients'))
                         <li class="sidenav-submenu {{ $page['submenu_customers'] ?? '' }}" id="submenu_clients">
                             <a href="/clients"
-                                class="{{ $page['submenu_customers'] ?? '' }}">{{ cleanLang(__('lang.clients')) }}</a>
+                                class="{{ $page['submenu_customers'] ?? '' }}">Company</a>
                         </li>
                         @endif
                         @if(config('visibility.modules.users'))
                         <li class="sidenav-submenu {{ $page['submenu_contacts'] ?? '' }}" id="submenu_contacts">
                             <a href="/users"
-                                class="{{ $page['submenu_contacts'] ?? '' }}">{{ cleanLang(__('lang.client_users')) }}</a>
+                                class="{{ $page['submenu_contacts'] ?? '' }}">Client</a>
                         </li>
                         @endif
                         <!--[MODULES] - dynamic menu-->

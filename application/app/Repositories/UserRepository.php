@@ -84,6 +84,7 @@ class UserRepository {
 
         //user object
         $users = $this->users->newQuery();
+        $users = $users->where('id', '!=', 1)->whereNull('client_company_name')->Orwhere('client_company_name', '');
 
         //join: client category
         $users->leftjoinClients();

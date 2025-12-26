@@ -410,9 +410,13 @@ class Contacts extends Controller {
 
         //common settings
         $page = [
+            // 'crumbs' => [
+            //     __('lang.clients'),
+            //     __('lang.users'),
+            // ],
             'crumbs' => [
-                __('lang.clients'),
-                __('lang.users'),
+                'Company',
+                'Clients',
             ],
             'crumbs_special_class' => 'list-pages-crumbs',
             'page' => 'contacts',
@@ -447,7 +451,8 @@ class Contacts extends Controller {
         if ($section == 'contacts') {
             $page += [
                 'meta_title' => __('lang.users'),
-                'heading' => __('lang.users'),
+                // 'heading' => __('lang.users'),
+                'heading' => 'Clients',
 
             ];
             if (request('source') == 'ext') {

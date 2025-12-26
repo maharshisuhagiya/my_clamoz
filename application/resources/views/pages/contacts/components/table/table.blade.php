@@ -18,6 +18,7 @@
                             </span>
                         </th>
                         @endif
+                        <th>CRN No.</th>
                         <th class="contacts_col_first_name"><a class="js-ajax-ux-request js-list-sorting"
                                 id="sort_first_name" href="javascript:void(0)"
                                 data-url="{{ urlResource('/users?action=sort&orderby=first_name&sortorder=asc') }}">{{ cleanLang(__('lang.name')) }}<span class="sorting-icons"><i class="ti-arrows-vertical"></i></span></a>

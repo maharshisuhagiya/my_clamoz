@@ -114,6 +114,8 @@ class Clients extends Controller {
 
         //basic page settings
         $page = $this->pageSettings('clients');
+        $page['crumbs'][0] = "Company";
+        $page['heading'] = "Company";
 
         //get clients
         $clients = $this->clientrepo->search();
