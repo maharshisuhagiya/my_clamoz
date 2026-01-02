@@ -5,7 +5,7 @@
     <!--tableconfig_column_1 [client_id]-->
     <td class="clients_col_id {{ config('table.tableconfig_column_1') }} tableconfig_column_1"
         id="clients_col_id_{{ $client->client_id }}">
-        {{ $client->client_id }}
+        {{ isset($client['users'][0]['crn_number']) ? $client['users'][0]['crn_number'] : 'N/A' }}
     </td>
 
     <!--tableconfig_column_2 [client_company_name]-->

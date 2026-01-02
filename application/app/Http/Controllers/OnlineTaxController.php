@@ -42,7 +42,8 @@ class OnlineTaxController extends Controller
         $summaryText = TaxSummary::where('user_id', $userId)->whereNotNull('summary_text')->first();
         $totalRewards = ReferralReward::where('user_id', $userId)->sum('reward_value');
         $rewardBreakdown = User::where('referred_by', $userId)->get();
-        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'totalRewards', 'rewardBreakdown'));
+        $page = ['mainmenu_online_tax' => 'active'];
+        return view('pages.online_tax.index', compact('taxpayer','spouse','dependent','addresses','taxnotes','documents','bank','otherIncomeEntries', 'otherExpenseEntries', 'stateEntries', 'summaryFiles', 'summaryText', 'totalRewards', 'rewardBreakdown', 'page'));
     }
 
     public function userDetails($id)

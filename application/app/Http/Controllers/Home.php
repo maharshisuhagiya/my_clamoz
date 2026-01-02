@@ -17,6 +17,8 @@ use App\Repositories\ProjectRepository;
 use App\Repositories\StatsRepository;
 use App\Repositories\TaskRepository;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Home extends Controller {
 
@@ -61,6 +63,28 @@ class Home extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+
+        DB::transaction(function () {
+
+            $users = User::whereNull('crn_number')->get();
+
+            foreach ($users as $user) {
+
+                do {
+                    // 🔢 Random 5 digit number
+                    $crn = rand(10000, 99999);
+
+                    // 🔍 Check duplicate
+                    $exists = User::where('crn_number', $crn)->exists();
+
+                } while ($exists);
+
+                // 💾 Save CRN
+                $user->update([
+                    'crn_number' => $crn
+                ]);
+            }
+        });
 
         $page = $this->pageSettings();
 

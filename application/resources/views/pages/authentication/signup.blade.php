@@ -54,21 +54,21 @@
         <div class="row">
 
             <!-- FIRST NAME -->
-            <div class="form-group col-md-4 m-t-20">
+            <div class="form-group col-md-6 m-t-20">
                 <input class="form-control" type="text" name="first_name" id="first_name"
                     placeholder="{{ cleanLang(__('lang.first_name')) }}">
             </div>
 
             <!-- LAST NAME -->
-            <div class="form-group col-md-4 m-t-20">
+            <div class="form-group col-md-6 m-t-20">
                 <input class="form-control" type="text" name="last_name" id="last_name"
                     placeholder="{{ cleanLang(__('lang.last_name')) }}">
             </div>
 
             <!-- COMPANY -->
-            <div class="form-group col-md-4 m-t-20">
+            <div class="form-group col-md-12 m-t-20">
                 <input class="form-control" type="text" name="client_company_name"
-                    id="client_company_name" placeholder="{{ cleanLang(__('lang.company_name')) }}">
+                    id="client_company_name" placeholder="{{ cleanLang(__('lang.company_name')) }} / {{ cleanLang(__('lang.person_name')) }}">
             </div>
 
             <!-- EMAIL -->

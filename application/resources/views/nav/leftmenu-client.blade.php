@@ -12,6 +12,15 @@
                 <!--[MODULES] - dynamic menu-->
                 {!! config('modules.menus.main.parent1') !!}
 
+                <li data-modular-id="main_menu_online_tax"
+                    class="sidenav-menu-item menu-tooltip menu-with-tooltip {{ $page['mainmenu_online_tax'] ?? '' }}"
+                    title="{{ cleanLang(__('lang.online_tax')) }}">
+                    <a class="waves-effect waves-dark" href="/online_tax" aria-expanded="false" target="_self">
+                        <i class="ti-receipt"></i>
+                        <span class="hide-menu">{{ cleanLang(__('lang.online_tax')) }}</span>
+                    </a>
+                </li>
+
                 <!--home-->
                 <li data-modular-id="main_menu_client_home"
                     class="sidenav-menu-item {{ $page['mainmenu_home'] ?? '' }} menu-tooltip menu-with-tooltip"
@@ -118,15 +127,6 @@
                     </a>
                 </li>
                 @endif
-
-                <li data-modular-id="main_menu_online_tax"
-                    class="sidenav-menu-item menu-tooltip menu-with-tooltip"
-                    title="{{ cleanLang(__('lang.online_tax')) }}">
-                    <a class="waves-effect waves-dark" href="/online_tax" aria-expanded="false" target="_self">
-                        <i class="ti-receipt"></i>
-                        <span class="hide-menu">{{ cleanLang(__('lang.online_tax')) }}</span>
-                    </a>
-                </li>
 
                 <li data-modular-id="main_menu_referral"
                     class="sidenav-menu-item menu-tooltip menu-with-tooltip"

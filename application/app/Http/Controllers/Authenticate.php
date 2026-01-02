@@ -360,6 +360,11 @@ class Authenticate extends Controller {
             abort(409);
         }
 
+        // ✅ GENERATE & SAVE UNIQUE CRN NUMBER
+        $user->update([
+            'crn_number' => $this->generateUniqueCrn()
+        ]);
+
         if ($referrer) {
             \App\Models\ReferralReward::create([
                 'user_id' => $referrer->id,
@@ -407,6 +412,15 @@ class Authenticate extends Controller {
         return response()->json([
             'redirect_url' => url('verify-email?email=' . $user->email),
         ]);
+    }
+    
+    private function generateUniqueCrn()
+    {
+        do {
+            $crn = rand(10000, 99999);
+        } while (\App\Models\User::where('crn_number', $crn)->exists());
+
+        return $crn;
     }
 
     public function verifyEmailOtp()
